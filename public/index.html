@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Void Bot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo"> Void</div>
+        <nav>
+            <a href="/" class="active">Dashboard</a>
+            <a href="/terms">Términos y Condiciones</a>
+            <a href="/privacy">Políticas de Privacidad</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <div class="dashboard-container">
+            <div class="bot-header">
+                <div class="bot-avatar">
+                    <img src="https://i.postimg.cc/RV8JFrZ4/Chat-GPT-Image-12-jul-2026-19-54-38.png" alt="Logo de Void Bot">
+                </div>
+                <h1>Void <span class="italic-accent">Bot</span></h1>
+                
+                <div class="single-toggle-container">
+                    <span class="status-label">Estado del Sistema:</span>
+                    <label class="switch-large">
+                        <input type="checkbox" id="botStatusToggle" checked>
+                        <span class="slider-large"></span>
+                    </label>
+                    <span id="statusText" class="status-text active">Activo</span>
+                </div>
+                <p class="subtitle">Gestiona la configuración y conexión de tu servidor</p>
+            </div>
+
+            <div class="card discord-connection-card">
+                <h2>Conexión con <span class="italic-accent">Discord</span></h2>
+                <div id="notConnectedView">
+                    <p class="legal-text">Para configurar Void en tu servidor, primero debes autorizar la aplicación con tu cuenta de Discord.</p>
+                    <a href="https://discord.com/api/oauth2/authorize?client_id=1526012524561170502&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&response_type=code&scope=identify%20guilds" class="btn btn-discord" id="connectBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white" style="vertical-align: middle; margin-right: 8px;"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                        Conectar con Discord
+                    </a>
+                </div>
+
+                <div id="connectedView" style="display: none;">
+                    <p class="legal-text">? Conectado como: <strong id="discordUsername">Usuario</strong></p>
+                    <div class="form-group">
+                        <label>Selecciona el servidor de Discord a configurar:</label>
+                        <select id="guildSelect">
+                            <option value="">Cargando servidores...</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 15px;" onclick="alert('? Configuración guardada exitosamente.')">Guardar Configuración</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Configuración <span class="italic-accent">Rápida</span></h2>
+                <div class="form-group">
+                    <label>Canal de notificaciones y evaluaciones</label>
+                    <select>
+                        <option>Selecciona un canal...</option>
+                        <option>#evaluaciones</option>
+                        <option>#general</option>
+                        <option>#registros</option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary">Actualizar Canal</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Lógica del Toggle Único
+        const botToggle = document.getElementById('botStatusToggle');
+        const statusText = document.getElementById('statusText');
+        botToggle.addEventListener('change', function() {
+            if(this.checked) {
+                statusText.textContent = 'Activo';
+                statusText.className = 'status-text active';
+            } else {
+                statusText.textContent = 'Inactivo';
+                statusText.className = 'status-text inactive';
+            }
+        });
+
+        // Simulación visual de conexión (Quita el e.preventDefault() cuando tengas tu Client ID real)
+        document.getElementById('connectBtn').addEventListener('click', function(e) {
+            document.getElementById('notConnectedView').style.display = 'none';
+            document.getElementById('connectedView').style.display = 'block';
+            document.getElementById('discordUsername').textContent = 'Mavii#1234';
+            document.getElementById('guildSelect').innerHTML = `
+                <option value="server1">Servidor de Pruebas de Mavii</option>
+                <option value="server2">Nothing Studios Group HQ</option>
+            `;
+        });
+    </script>
+</body>
+</html>
